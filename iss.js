@@ -64,4 +64,20 @@ const fetchISSFlyOverTimes = function(coords, callback) {
   });
 };
 
-module.exports = { fetchMyIP, fetchCoordsByIP, fetchISSFlyOverTimes };
+const nextISSTimesForMyLocation = function(times, callback) {
+  let flyTimes = [];
+  let minutes = 0;
+  let seconds = 0;
+
+  for (const pass of times) {
+    const datetime = new Date(0);
+    datetime.setUTCSeconds(pass.risetime);
+    const duration = pass.duration;
+    let minutes = Math.round(duration / 60);
+    let seconds = duration % 60;
+    flyTimes.push(`The next ISS flyover is at ${datetime} for about ${minutes} minute(s) and ${seconds} seconds!`);
+  }
+  callback(flyTimes);
+};
+
+module.exports = { fetchMyIP, fetchCoordsByIP, fetchISSFlyOverTimes, nextISSTimesForMyLocation };
